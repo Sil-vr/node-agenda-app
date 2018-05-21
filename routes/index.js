@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', {
       title: 'Hello NodeJs',
-      name: 'Matei'
+      name: 'Sil-vr'
   });
 });
 

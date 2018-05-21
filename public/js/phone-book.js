@@ -11,15 +11,27 @@ function getRow(person) {
 }
 
 var persons = [];
-console.info('loading persons');
 
-$.ajax({
-    url: '/phone-book',
-    method: "GET"
-}).done(function (persons) {
-    console.info('done:', persons);
-    display(persons);
-});
+function loadContacts() {
+    $.ajax({
+        url: '/phone-book',
+        method: "GET"
+    }).done(function (persons) {
+        console.info('done:', persons);
+        display(persons);
+    });
+}
+
+loadContacts();
+
+bindEvents();
+
+function editContact() {
+    var editPerson = persons.find(function (person) {
+        console.log(person.firstName);
+        return person.id== id;
+    })
+}
 
 function deleteContact(id) {
     $.ajax({
@@ -33,35 +45,19 @@ function deleteContact(id) {
     });
 }
 
-function display(persons) {
-    var rows = '';
-
-    // persons.forEach(function (person) {
-    //     rows += getRow(person);
-    // });
-    // persons.forEach((person) => {
-    //     rows += getRow(person);
-    // });
-    // persons.forEach(person => {
-    //     rows += getRow(person);
-    // });
-    persons.forEach(person => rows += getRow(person));
-
-    rows += '<tr>' +
+function getAction() {
+    return '<tr>' +
         '<td><input type="text" required name="firstName" placeholder="Enter first name"></td>' +
         '<td><input type="text" name="lastName" placeholder="Enter last name"></td>' +
         '<td><input type="text" required name="phone" placeholder="Enter phone"></td>' +
         '<td><button type="submit">Add</button></td>' +
         '</tr>';
+}
 
-    $('#phone-book tbody').html(rows);
-
+function bindEvents() {
     $('#phone-book tbody a.edit').click(function () {
         var id = this.attributes['data-id'].value;
-        // var id = $(this).attr('data-id');
-        // var id = $(this).data('id');
         console.info('click on ', this, id);
-
         var editPerson = persons.find(function (person) {
             console.log(person.firstName);
             return person.id == id;
@@ -76,8 +72,19 @@ function display(persons) {
     $('#phone-book tbody a.delete').click(function () {
         var id = $(this).data('id');
         console.info('click on ', this, id);
-
         deleteContact(id);
     });
+}
+
+function display(persons) {
+
+    var rows = '';
+
+    persons.forEach(person => rows += getRow(person));
+    rows += getAction();
+
+    $('#phone-book tbody').html(rows);
+
+    window.persons=persons;
 }
 

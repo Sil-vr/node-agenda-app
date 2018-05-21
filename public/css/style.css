@@ -1,7 +1,7 @@
 body {
     background-color: #eaeaea;
 }
-
+* {background-color: rgba(0,0,0,0.1);}
 p {
     text-indent: 15px;
 }

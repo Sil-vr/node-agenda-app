@@ -18,7 +18,7 @@ router.post('/add', function(req, res, next) {
 
     // update
     phoneBooks.push({
-        id: 100, // TODO
+        id: new Date().getTime(),
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phone: req.body.phone
